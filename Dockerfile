@@ -1,23 +1,20 @@
-# Use the official RunPod base image. 
-# This includes Python 3.10, CUDA 11.8, and common ML libraries.
-# You can change the tag to '0.6.2-cuda12.2.0' if you need newer CUDA.
+# Use a RunPod-compatible base image
 FROM runpod/base:0.4.0-cuda11.8.0
 
-# Set the working directory to the root of the container
+# Set working directory to root
 WORKDIR /
 
-# Add necessary files
-ADD handler.py ./
+# 1. Install Dependencies
+# Copy requirements first to leverage Docker caching
+COPY requirements.txt .
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# pip install
-ADD requirements.txt ./
-RUN pip install -r requirements.txt
-
-# --- Application Code ---
-# Copy all files from your current directory into the container
+# 2. Copy Application Code
+# This copies handler.py (and everything else) to /
 COPY . .
 
-# --- Entrypoint ---
-# This command runs your handler script.
-# IMPORTANT: Replace 'handler.py' with the actual name of your main python script.
-CMD [ "python", "-u", "handler.py" ]
+# 3. Run the Handler
+# -u is CRITICAL: It forces unbuffered stdout, so you see logs in real-time.
+# We use the exact filename 'handler.py' copied above.
+CMD [ "python3", "-u", "handler.py" ]
