@@ -1,0 +1,19 @@
+# --- Essential for RunPod ---
+runpod
+
+# --- Common AI/ML Frameworks (Uncomment what you use) ---
+# torch --index-url https://download.pytorch.org/whl/cu118  # PyTorch with CUDA 11.8 support
+# torchvision --index-url https://download.pytorch.org/whl/cu118
+# torchaudio --index-url https://download.pytorch.org/whl/cu118
+# tensorflow
+# transformers
+# diffusers
+# accelerate
+
+# --- Common Utilities (Uncomment what you use) ---
+# numpy
+# pandas
+# pillow
+# requests
+# scipy
+# opencv-python-headless  # Use "headless" for servers (no GUI)
